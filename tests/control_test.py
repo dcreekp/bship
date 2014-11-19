@@ -35,7 +35,7 @@ def test_choice():
 
     eg_ship = choice(check.comp.brd.fleet.values())
 
-    print eg_ship
+    print(eg_ship)
 
 def test_start():
 

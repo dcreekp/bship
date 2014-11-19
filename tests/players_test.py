@@ -14,9 +14,9 @@ def test__init():
 
 def test_pick_coord():
 
-    print check.pick_coord('where2bomb')
-    print check.pick_coord('hide_head')
-    print check.pick_coord('hide_tail')
+    print(check.pick_coord('where2bomb'))
+    print(check.pick_coord('hide_head'))
+    print(check.pick_coord('hide_tail'))
 
     # checked for 4f and h8: both failed
 
@@ -27,11 +27,11 @@ def test__head2tail():
     ship = check.brd.S # size is 3
     head2 = (5,5)
     ship2 = check.brd.K # size is 5
-    print check._head2tail(ship, head)
-    print check._head2tail(ship2, head2)
+    print(check._head2tail(ship, head))
+    print(check._head2tail(ship2, head2))
     head3 = (8,7)
     ship3 = check.brd.K
-    print check._head2tail(ship3, head3)
+    print(check._head2tail(ship3, head3))
     '''
     head4 = (5, 5)
     ship4 = check.brd.fleet['T']
@@ -46,7 +46,7 @@ def test__head2tail():
     check.occupied = [(5, 2), (5, 8), (8, 5), (7, 5)]
     dd = check._head2tail(ship4, head4)
     for key in dd:
-        print key, dd[key]
+        print(key, dd[key])
 
 def test__full():
 
@@ -55,9 +55,9 @@ def test__full():
     ship = check.brd.fleet['S'] # size is 3
     h2t = check._head2tail(ship, head)
 
-    #print check._full(h2t) # should show 2 tail options
+    #print(check._full(h2t) # should show 2 tail options)
     
-    print check._full(h2t) # should show 1 tail option
+    print(check._full(h2t) # should show 1 tail option)
 
 def test_auto_hide_ships():
     
@@ -85,8 +85,8 @@ def test_sameness():
     assert comp2.brd == comp3.brd
 
     comp3.brd.board[(5, 5)] = 'X'
-    print "comp2.brd \n", comp2.brd 
-    print "comp3.brd\n", comp3.brd
+    print("comp2.brd \n", comp2.brd )
+    print("comp3.brd\n", comp3.brd)
 
     assert comp2.brd is comp3.brd
     assert comp2.brd == comp3.brd
@@ -98,21 +98,21 @@ def test_hide_ships():
     ship3 = comp.brd.fleet['T']
 
     comp.hide_ships(ship)
-    print ship.POS
+    print(ship.POS)
     comp.hide_ships(ship2)
-    print ship2.POS
+    print(ship2.POS)
     comp.hide_ships(ship3)
-    print ship3.POS
+    print(ship3.POS)
 
 def test_randchoice():
 
     lst = [1,6,34,42,9]
 
     h = choice(lst)
-    print h
+    print(h)
 
     coord = choice(comp.brd.board.keys())
-    print coord
+    print(coord)
 
     with pytest.raises(IndexError):
         empty = []
@@ -122,8 +122,8 @@ def test_random_pick():
 
     for i in range(5):
         i = comp.random_pick()
-        print i
-        print comp.bombed
+        print(i)
+        print(comp.bombed)
 
 def test__hit():
 
@@ -132,7 +132,7 @@ def test__hit():
     check._hit(check.fleet['P'],(0,0))
     check._hit(check.fleet['P'],(0,1))
 
-    print check.brd
+    print(check.brd)
 
 def test_receive_shot():
 
@@ -143,7 +143,7 @@ def test_receive_shot():
     check.brd.board[(3,3)] = '.'
     check.brd.board[(4,4)] = 'K'
 
-    print check.brd
+    print(check.brd)
 
     check.receive_shot((0,0))
     assert check.brd.board[(0,0)] == 'x'

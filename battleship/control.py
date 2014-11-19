@@ -14,21 +14,21 @@ class Game(object):
 
     def start(self):
         """starts the game with some instructions"""
-        print PROMPT['title']
-        print PROMPT['explain']
+        print(PROMPT['title'])
+        print(PROMPT['explain'])
 
         self._example_setup()
 
         eg_ship = choice(self.comp.brd.fleet.values())
 
-        print self.comp.brd
+        print(self.comp.brd)
 
-        print PROMPT['example'] % (eg_ship, convert(eg_ship.pos[0]),\
-                                        convert(eg_ship.pos[-1]))
+        print(PROMPT['example'].format(eg_ship, convert(eg_ship.pos[0]),\
+                                        convert(eg_ship.pos[-1])))
 
         self.comp.brd.remove_fleet()
 
-        raw_input(PROMPT['ready'])
+        input(PROMPT['ready'])
 
     def human_setup(self):
         """ prompts the user to set up their board; manually choose which ship
@@ -40,16 +40,16 @@ class Game(object):
         fleet_lst = [fleet[ship] for ship in fleet]
         shuffle(fleet_lst)
 
-        
+
         while len(fleet_lst) > 0:
-            print PROMPT['border']
+            print(PROMPT['border'])
 
             # displays the current board
             show_board(self.one.brd)
 
             # prompts user to select a ship to hide or autohide the rest
-            select = raw_input(PROMPT['which_ship'] % '\n   '.join([str(ship)\
-                                                        for ship in fleet_lst]))
+            select = input(PROMPT['which_ship'].format('\n   '.join([str(ship)\
+                                                        for ship in fleet_lst])))
 
             if select.lower() == 'a': # automates the hiding process
                 for ship in fleet_lst:
@@ -71,9 +71,9 @@ class Game(object):
             # in case user selects a ship already hidden
             elif fleet.get(select.upper()) not in fleet_lst and \
                         select.upper() in 'KTSYP':
-                print PROMPT['already_hidden'] % str(fleet.get(select.upper()))
+                print(PROMPT['already_hidden'].format(str(fleet.get(select.upper()))))
             else:
-                print PROMPT['which_ship_explain']
+                print(PROMPT['which_ship_explain'])
 
         self._confirm_setup()
 
@@ -81,12 +81,12 @@ class Game(object):
         """display the completed board setup for player to confirm or revise"""
 
         show_board(self.one.brd)
-        check = raw_input(PROMPT['good2go'])
+        check = input(PROMPT['good2go'])
 
         if check == '':
             return
         elif check[0].lower() == 'n':
-            print PROMPT['start_again']
+            print(PROMPT['start_again'])
             self.one.brd.remove_fleet()
             return self.human_setup()
         else:
@@ -101,7 +101,7 @@ class Game(object):
         fleet_lst = [fleet[ship] for ship in fleet]
         shuffle(fleet_lst)
 
-        print PROMPT['border']
+        print(PROMPT['border'])
 
         for ship in fleet_lst:
             self.comp.auto_hide_ships(ship)
@@ -113,13 +113,13 @@ class Game(object):
 
         turn = 0
 
-        print PROMPT['turn_line'] % turn
+        print(PROMPT['turn_line'].format(turn))
         show_game(self.one.brd, self.comp.brd)
 
         while turn <= 100:
             turn += 1
 
-            print PROMPT['turn_line'] % turn
+            print(PROMPT['turn_line'].format.(turn))
 
             if self._comp_bomb_human() == 'comp_win':
                 return 'comp_win'
@@ -136,13 +136,13 @@ class Game(object):
 
         turn = 0
 
-        print PROMPT['turn_line'] % turn
+        print(PROMPT['turn_line'].format(turn))
         show_game(self.one.brd, self.comp.brd)
 
         while turn <= 100:
             turn += 1
 
-            print PROMPT['turn_line'] % turn
+            print(PROMPT['turn_line'].format.(turn))
 
             if self._human_bomb_comp() == 'human_win':
                 return 'human_win'
@@ -169,21 +169,21 @@ class Game(object):
         if self.one.sunk == 5:
             return 'comp_win'
 
-        raw_input(PROMPT['comprehend'])
+        input(PROMPT['comprehend'])
 
     def human_win(self):
         """ end game with human win"""
 
-        print PROMPT['result']
+        print(PROMPT['result'])
         show_game(self.one.brd, self.comp.brd)
-        print PROMPT['one_wins']
+        print(PROMPT['one_wins'])
 
     def comp_win(self):
         """ end game with computer win"""
 
-        print PROMPT['result']
+        print(PROMPT['result'])
         show_game(self.one.brd, self.comp.brd)
-        print PROMPT['comp_wins']
+        print(PROMPT['comp_wins'])
 
     def _example_setup(self):
         """ setup to show an example of the board and game """
