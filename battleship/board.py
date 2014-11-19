@@ -36,11 +36,11 @@ class Board(object):
         # the column reference row is being made first
         str_row = []
         for col in 'ABCDEFGHIJ'[:self.cols]:
-            str_row.append('  %s' % col)
+            str_row.append('  {}'.format(col))
         str_row.insert(0, '+')
 
         # the col_ref row is appended to the str_board list
-        str_board.append('\t%s' % ''.join(str_row)) # elements of str_row joined into a string
+        str_board.append('\t{}'.format(''.join(str_row))) # elements of str_row joined into a string)
 
         # the dict will be organised into lists
         for row in range(self.rows):
@@ -52,12 +52,12 @@ class Board(object):
                     if self.board[(col, row)] in self.fleet.keys():
                         str_row.append(' ' + POINT['open'] + ' ')
                     else:
-                        str_row.append(' %s ' % self.board[(col, row)])
+                        str_row.append(' {} '.format(self.board[(col, row)]))
                 else: # to show a ship's location
-                    str_row.append(' %s ' % self.board[(col, row)])
+                    str_row.append(' {} '.format(self.board[(col, row)]))
 
             # appends each str_row along with each row's reference
-            str_board.append('\t%d %s' % (row, ''.join(str_row)))
+            str_board.append('\t{} {}'.format(row, ''.join(str_row)))
 
         # inserts \n in between each item in str_board to print each str_row on a new line
         return '\n'.join(str_board)
