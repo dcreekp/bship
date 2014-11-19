@@ -17,14 +17,14 @@ class Player(object):
 
         while True:
             # gets a random coord out of the board
-            head = choice(self.brd.board.keys())
+            head = choice(list(self.brd.board.keys()))
 
             # gets a dict of possible coordinates
             h2t = self._head2tail(ship, head)
 
             try:
                 # gets a random set of coordinates from the h2t dict
-                pos = choice(h2t.values())
+                pos = choice(list(h2t.values()))
                 break
             except IndexError: # but if the h2t dict has zero possible coords
                 continue # will need to pick a new head coord

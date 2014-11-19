@@ -19,7 +19,7 @@ class Game(object):
 
         self._example_setup()
 
-        eg_ship = choice(self.comp.brd.fleet.values())
+        eg_ship = choice(list(self.comp.brd.fleet.values()))
 
         print(self.comp.brd)
 
@@ -119,7 +119,7 @@ class Game(object):
         while turn <= 100:
             turn += 1
 
-            print(PROMPT['turn_line'].format.(turn))
+            print(PROMPT['turn_line'].format(turn))
 
             if self._comp_bomb_human() == 'comp_win':
                 return 'comp_win'
@@ -142,7 +142,7 @@ class Game(object):
         while turn <= 100:
             turn += 1
 
-            print(PROMPT['turn_line'].format.(turn))
+            print(PROMPT['turn_line'].format(turn))
 
             if self._human_bomb_comp() == 'human_win':
                 return 'human_win'
