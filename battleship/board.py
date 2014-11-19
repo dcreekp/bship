@@ -1,0 +1,102 @@
+"""board.py contains Board class and Ship class"""
+from battleship.ship import Ship
+from battleship.config import POINT
+
+class Board(object):
+    """has-a board dict and has-a fleet of Ship()s"""
+
+    def __init__(self, rows=10, cols=10):
+        """ creates a new board dataset: tuple as key dictionary
+            with each coord as open/miss/occupied/hit/sunk status O X K @ k
+            number of row/column maximum of 10 otherwise players.pick_pos will
+            not work. initialises a fleet of ships
+        """
+        self.board = {}
+        self.rows = rows
+        self.cols = cols
+
+        for row in range(rows):
+            for col in range(cols):
+                self.board[(col, row)] = POINT['open']
+
+        self.fleet = {
+                'K': Ship('AircraftCarrier', 'K', 5),
+                'T': Ship('Battleship', 'T', 4),
+                'S': Ship('Submarine', 'S', 3),
+                'Y': Ship('Destroyer', 'Y', 3),
+                'P': Ship('PatrolBoat', 'P', 2)
+                    }
+
+    def __str__(self, hide=False):
+        """ converts board dict tuple as key into a list of list to display
+            It will or will not display ships depending on the second parameter
+        """
+        str_board = [] # will become a list containing str_row lists
+
+        # the column reference row is being made first
+        str_row = []
+        for col in 'ABCDEFGHIJ'[:self.cols]:
+            str_row.append('  %s' % col)
+        str_row.insert(0, '+')
+
+        # the col_ref row is appended to the str_board list
+        str_board.append('\t%s' % ''.join(str_row)) # elements of str_row joined into a string
+
+        # the dict will be organised into lists
+        for row in range(self.rows):
+            str_row = [] # each will be a list of the values of the board dict
+
+            # for every col in the row the corresponding dict value is appended
+            for col in range(self.cols):
+                if hide: # to keep a ship's location hidden
+                    if self.board[(col, row)] in self.fleet.keys():
+                        str_row.append(' ' + POINT['open'] + ' ')
+                    else:
+                        str_row.append(' %s ' % self.board[(col, row)])
+                else: # to show a ship's location
+                    str_row.append(' %s ' % self.board[(col, row)])
+
+            # appends each str_row along with each row's reference
+            str_board.append('\t%d %s' % (row, ''.join(str_row)))
+
+        # inserts \n in between each item in str_board to print each str_row on a new line
+        return '\n'.join(str_board)
+
+    def place_ship(self, ship, pos):
+        """ record the ship's pos and place a ship on the board
+            ie. change O to S or P etc.
+        """
+        ship.pos = pos
+        for coord in ship.pos:
+            self.board[coord] = ship.sign
+
+    def remove_ship(self, ship):
+        """ remove a ship ie. change K or T etc. back to O and
+            delete the ship's pos
+        """
+        for coord in ship.pos:
+            self.board[coord] = POINT['open']
+        ship.empty()
+
+    def remove_fleet(self):
+        """ to remove a fleet of ships from the board and deletes
+            each Ship's pos
+        """
+        for ship in self.fleet:
+            self.remove_ship(self.fleet[ship])
+
+    def record_miss(self, coord):
+        """changes the point representation of the coord to a miss"""
+
+        self.board[coord] = POINT['miss']
+
+    def record_hit(self, coord):
+        """changes the point representation of the coord to a hit"""
+
+        self.board[coord] = POINT['hit']
+
+    def record_sunk(self, ship):
+        """changes the point representation of the list of coords to a sunk"""
+        
+        for coord in ship.pos:
+            self.board[coord] = ship.sign.lower()

@@ -1,0 +1,4 @@
+*.pyc
+venv_bship3/
+docs/
+NOTES
