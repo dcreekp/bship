@@ -40,7 +40,7 @@ PROMPT = {
 'comp_hidden': "   Computer has hidden the {}",
 'hide_head': "Which coordinate do you want to hide the head of the ship??\n>> ",
 'hide_tail': "Pick a coordinate for the tail of the ship (or type 'R' to relocate head coord).\n>> ", 
-'tail_option': "The tail of the ship can be hidden in these coordinates:\n\t{ {} }",
+'tail_option': "The tail of the ship can be hidden in these coordinates:\n\t {} ",
 'revise': "Or did you want to change the head coordinate of the ship??\n(Y/n) >> ",
 'wrong_tail': "You will have to hide the ship with a new head coordinate...",
 'occupied': "These coordinates are already occupied by another ship of your fleet.",

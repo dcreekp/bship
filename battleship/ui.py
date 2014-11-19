@@ -95,7 +95,7 @@ def prompt_coord(ask):
 
     # any coord that clean returns as None is rejected
     if not coord:
-        print(PROMPT['bad_coord'] % convert((randint(0, 9), randint(0, 9))))
+        print(PROMPT['bad_coord'].format(convert((randint(0, 9), randint(0, 9)))))
         return None
     # special case: relocating head coord if user dislikes tail options
     if ask == 'hide_tail' and coord == 'r':

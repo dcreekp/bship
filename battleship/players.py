@@ -153,8 +153,8 @@ class Human(Player):
             display_pos = (convert(coord) for coord in pos)
 
             # checks whether user is ok to input ship with these coords
-            ans = input(PROMPT['pos_ok?'].format((str(ship),
-                                                '  '.join(display_pos))))
+            ans = input(PROMPT['pos_ok?'].format(str(ship),
+                                                '  '.join(display_pos)))
 
             if ans == '': # when user just presses <Enter> record the pos
                 self.brd.place_ship(ship, pos)
@@ -198,7 +198,7 @@ class Human(Player):
         while attempt <= 3:
             attempt += 1
 
-            print(PROMPT['tail_option'].format('\t'.join(options)))
+            print(PROMPT['tail_option'].format('{ ' + '\t'.join(options) + ' }'))
             tail = self.pick_coord('hide_tail')
 
             # valid selection will return the coords of the full ship
