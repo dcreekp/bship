@@ -12,7 +12,7 @@ def test_shipclass():
 
 def test_ship__str_():
 
-    print str(ship)
+    print(str(ship))
 
     assert str(ship) == "C ship(2)"
 
@@ -21,5 +21,5 @@ def test_empty():
     ship.pos = [(1,1),(1,2)]
 
     ship.empty()
-    print ship.pos
+    print(ship.pos)
     assert ship.pos == []

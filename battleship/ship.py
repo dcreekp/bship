@@ -12,7 +12,7 @@ class Ship(object):
 
     def __str__(self):
         """ prints like: Y Destroyer(3)"""
-        return "%s %s(%d)" % (self.sign, self.name, self.size)
+        return "{} {}({})".format(self.sign, self.name, self.size)
 
     def empty(self):
         """ empties the POS for a new POS """

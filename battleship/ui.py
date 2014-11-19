@@ -6,23 +6,23 @@ from battleship.config import PROMPT
 def show_board(one_brd):
     """takes the player's Board and displays it with Board's __str__"""
 
-    print "\n\t*Player1 Board"
-    print one_brd.__str__() + '\n'
+    print("\n\t*Player1 Board")
+    print(one_brd.__str__() + '\n')
 
 def show_game(one_brd, comp_brd):
     """ takes the player's Board and displays it with Board's __str__
         takes computer's Board and displays the board without revealing
         ship location
     """
-    print "\t*ATTACK" # the computer's board
-    print comp_brd.__str__(True) # ships hide=True
-    print "\t*DEFEND" # the player's board
-    print one_brd.__str__()
+    print("\t*ATTACK") # the computer's board
+    print(comp_brd.__str__(True)) # ships hide=True
+    print("\t*DEFEND") # the player's board
+    print(one_brd.__str__())
 
 def to_quit():
     """after failed attempts, prompts the user whether to quit"""
 
-    ans = raw_input(PROMPT['quitter'])
+    ans = input(PROMPT['quitter'])
     
     if ans == '':
         sys.exit()
@@ -91,11 +91,11 @@ def prompt_coord(ask):
         returns None for invalid input
     """
 
-    coord = clean(raw_input(PROMPT[ask]))
+    coord = clean(input(PROMPT[ask]))
 
     # any coord that clean returns as None is rejected
     if not coord:
-        print PROMPT['bad_coord'] % convert((randint(0, 9), randint(0, 9)))
+        print(PROMPT['bad_coord'] % convert((randint(0, 9), randint(0, 9))))
         return None
     # special case: relocating head coord if user dislikes tail options
     if ask == 'hide_tail' and coord == 'r':
@@ -105,5 +105,5 @@ def prompt_coord(ask):
     if new:
         return new, coord
     else:
-        print PROMPT['off_board']
+        print(PROMPT['off_board'])
         return None
