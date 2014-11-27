@@ -47,11 +47,8 @@ def clean(entry):
         return entry.lower()
 
     # normal case returns LETTERnumber
-    if ',' or '.' or '/' or ' ' in entry:
-        entry = entry.replace(',', '')
-        entry = entry.replace('.', '')
-        entry = entry.replace('/', '')
-        entry = entry.replace(' ', '')
+    for p in ",./'(){}[]\" ":
+        entry = entry.replace(p, '')
 
     if len(entry) == 2 and entry[0].isalpha() and entry[1].isdigit():
         return entry.upper()
