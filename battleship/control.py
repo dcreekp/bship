@@ -23,7 +23,7 @@ class Game(object):
 
         print(self.comp.brd)
 
-        print(PROMPT['example'].format(eg_ship, convert(eg_ship.pos[0]),\
+        print(PROMPT['example'].format(eg_ship, convert(eg_ship.pos[0]),
                                         convert(eg_ship.pos[-1])))
 
         self.comp.brd.remove_fleet()
@@ -48,7 +48,7 @@ class Game(object):
             show_board(self.one.brd)
 
             # prompts user to select a ship to hide or autohide the rest
-            select = input(PROMPT['which_ship'].format('\n   '.join([str(ship)\
+            select = input(PROMPT['which_ship'].format('\n   '.join([str(ship)
                                                         for ship in fleet_lst])))
 
             if select.lower() == 'a': # automates the hiding process
@@ -69,9 +69,10 @@ class Game(object):
             elif select == '':
                 self.one.hide_ships(fleet_lst.pop(0))
             # in case user selects a ship already hidden
-            elif fleet.get(select.upper()) not in fleet_lst and \
-                        select.upper() in 'KTSYP':
-                print(PROMPT['already_hidden'].format(str(fleet.get(select.upper()))))
+            elif fleet.get(select.upper()) not in fleet_lst and\
+                                select.upper() in 'KTSYP':
+                print(PROMPT['already_hidden'].format(str(fleet.get(select.upper(
+                    )))))
             else:
                 print(PROMPT['which_ship_explain'])
 

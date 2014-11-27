@@ -7,13 +7,17 @@ from battleship.ui import to_quit, clean, convert, prompt_coord
 class Player(object):
     """defines the methods players can take and has-board"""
 
+    def name(self):
+        
+        raise NotImplementedError()
+
     def auto_hide_ships(self, ship, who=0):
         """ computer randomly selects head coord, then using _head2tail() gets
             a set of coords, from the given choice randomly selects a set and
-            inputs these coordinates to the Ship's POS
+            inputs these coordinates to the Ship's pos
         """
-        self.occupied = {key for key in self.brd.board if
-                                self.brd.board[key] in FLEET.keys()}
+        self.occupied = set(key for key in self.brd.board if
+                                self.brd.board[key] in FLEET.keys())
 
         while True:
             # gets a random coord out of the board
@@ -118,17 +122,20 @@ class Human(Player):
         """players has-a board"""
         self.brd = Board()
         self.sunk = 0 # count of how many ships have been sunk
-        self.occupied = set() # list of occupied coordinates
+        self.occupied = set() # set of occupied coordinates
+
+    def name(self):
+        return "Player 1"
 
     def hide_ships(self, ship):
         """ prompts the user to select head using pick_coord() and tail using
             _full() to hide a ship, and using _head2tail() to show possible
             coords to hide a ship
-            inputs these coordinates to the Ship's POS
+            inputs these coordinates to the Ship's pos
         """
         # list of currently occupied coords renewed here, used with pick_coord
-        self.occupied = {key for key in self.brd.board if
-                                        self.brd.board[key] in FLEET.keys()}
+        self.occupied = set(key for key in self.brd.board if
+                                        self.brd.board[key] in FLEET.keys())
 
         attempt = 0
         while attempt <= 3:
@@ -249,6 +256,9 @@ class Computer(Player):
         self.sunk = 0 # count of how many ships have been sunk
         self.occupied = set() # set of occupied coordinates
         self.bombed = set() # set of bombed coordinates
+
+    def name(self):
+        return "Computer"
 
     def random_pick(self):
         """ computer randomly selects a coordinate to bomb out of a list of
