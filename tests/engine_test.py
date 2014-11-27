@@ -1,53 +1,42 @@
-from collections import OrderedDict    
 from battleship.players import Human, Computer
-from battleship.control import Game
 from battleship.board import Board
-from battleship.engine import engine
+from battleship.engine import *
 
-def test_engine():
+bb = Board()
+one = Human(bb)
+comp = Computer(bb)
 
-    engine()
+check = Engine(one, comp)
 
+def test_human_setup():
 
+    check.human_setup()
 
+def test_comp_setup():
 
+    check.comp_setup()
 
-def test_stuff():
+def test_confirm_setup():
 
-    lst = ['abcd', 'efgh', 'ijkl']
+    check._confirm_setup()
 
-    tp = (0,0)
-    try:
-        new_pos = lst[tp[0]][tp[1]]  
-        print 'Hell yeah!'
-    except IndexError:
-        print 'wrong! wrong! wrong!'
+def test_sameness():
 
-    
-    def _con(entry):
-        """converts typed coord to readable coord
-        """
-        # need to convert 'A1' to (0,0) 'c, 6' to (2,5) ' e  7  ' to (4,6)
+    game = Engine(Human(Board()),Computer(Board()))
 
-        a2d = dict(zip('ABCDEFGHI', range(9)))
-        for c in entry:
-            entry.replace(',',' ')
-            entry.replace('.',' ')
-            entry.replace('/',' ')
-        print entry
-        coord = entry.split()
-        print entry
-        if len(coord) == 2:
-            try:
-                if coord[0].isalpha() and coord[1].isdigit():
-                    return a2d[coord[0].upper()], int(coord[1])
-                else:
-                    return entry
-            except KeyError:
-                return entry
-        else:
-            return entry
+    assert game.one.brd.board is not game.comp.brd.board
+    assert game.one.brd.fleet is not game.comp.brd.fleet
 
-    print _con('a,1')
-    print _con('b 4')
+def test_play():
 
+    check.play()
+
+def test_choice():
+
+    eg_ship = choice(check.comp.brd.fleet.values())
+
+    print(eg_ship)
+
+def test_start():
+
+    check.start()
