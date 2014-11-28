@@ -1,5 +1,6 @@
 """Engine runs the game flow"""
 from random import shuffle, choice
+from battleship.players import Human, Computer
 from battleship.config import PROMPT
 from battleship.ui import show_board, show_game, convert
 
@@ -7,10 +8,10 @@ from battleship.ui import show_board, show_game, convert
 class Engine(object):
     """contains the Engine methods and has-players"""
 
-    def __init__(self, one, comp):
+    def __init__(self):
         """engine has player one and player comp"""
-        self.one = one
-        self.comp = comp
+        self.one = Human()
+        self.comp = Computer()
 
     def start(self):
         """starts the game with some instructions"""

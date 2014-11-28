@@ -3,11 +3,13 @@ from random import randint
 from battleship.engine import Engine
 from battleship.players import Human, Computer
 
-game = Engine(Human(), Computer())
+
 
 def run():
     """runs the Engine methods in the right order"""
 
+    game = Engine()
+    
     game.start()
     game.comp_setup()
     game.human_setup()
