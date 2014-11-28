@@ -45,7 +45,8 @@ PROMPT = {
 'wrong_tail': "You will have to hide the ship with a new head coordinate...",
 'occupied': "These coordinates are already occupied by another ship of your fleet.",
 'no_tail': "For this head coordinate, there are no possible tail coordinates. Choose another head coordinate.",
-'this_tail_ok': "The tail of the ship can be hidden in this coordinate:\n\t{ {} }\n(Y/n) >> ",
+'this_tail_ok': "The tail of the ship can be hidden in this coordinate:\n\t{}\
+\n(Y/n) >> ",
 'quitter': "Are you bored... do you want to quit??\n(Y/n) >> ",
 'pos_ok?': "The {} will be hidden here:\n\t[ {} ]\n(Y/n) >> ",
 'player_attack': "Player1 attacks {}.",

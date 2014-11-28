@@ -15,30 +15,23 @@ class Player(metaclass=ABCMeta):
 
     def auto_hide_ships(self, ship, who=0):
         """ computer randomly selects head coord, then using _head2tail() gets
-            a set of coords, from the given choice randomly selects a set and
-            inputs these coordinates to the Ship's pos
+            a dict of coords, from the given choice randomly selects a list and
+            returns the ship object and its coords to Board
         """
         self.occupied = set(key for key in self.brd.board if
                                 self.brd.board[key] in FLEET.keys())
 
         while True:
-            # gets a random coord out of the board
             head = choice(list(self.brd.board.keys()))
-
-            # gets a dict of possible coordinates
             h2t = self._head2tail(ship, head)
-
             try:
-                # gets a random set of coordinates from the h2t dict
                 pos = choice(list(h2t.values()))
                 break
-            except IndexError: # but if the h2t dict has zero possible coords
+            except IndexError: # if the h2t dict has zero possible coords
                 continue # will need to pick a new head coord
 
-        # records the coordinate in the ship and board objects
         self.brd.place_ship(ship, pos)
 
-        # what is printed depends on who hides it
         if who == 0:
             print(PROMPT['comp_hidden'].format(str(ship)))
         elif who == 1:
@@ -75,9 +68,7 @@ class Player(metaclass=ABCMeta):
                     if coord in h2t:
                         h2t_lst.remove(h2t)
 
-        # list of the h2t_lst last coord
         tail = [h2t[-1] for h2t in h2t_lst]
-        # dict of tail as key to the full set of coords as value
         h2t_dict = dict(zip(tail, h2t_lst))
 
         return h2t_dict
@@ -123,30 +114,25 @@ class Human(Player):
     def __init__(self):
         """players has-a board"""
         self.brd = Board()
-        self.sunk = 0 # count of how many ships have been sunk
-        self.occupied = set() # set of occupied coordinates
+        self.sunk = 0
+        self.occupied = set()
 
     def name(self):
         return "Player 1"
 
-    def human_setup(self):
+    def setup(self):
         """ prompts the user to set up their board; manually choose which ship
             and hide it with hide_ships(), or automatically hide all
         """
-        # dict of all ship's for player's board
         fleet = self.brd.fleet
-        # list of ship objects left to hide
         fleet_lst = [fleet[ship] for ship in fleet]
         shuffle(fleet_lst)
-
 
         while len(fleet_lst) > 0:
             print(PROMPT['border'])
 
-            # displays the current board
             show_board(self.brd)
 
-            # prompts user to select a ship to hide or autohide the rest
             select = input(PROMPT['which_ship'].format('\n   '.join([str(ship)
                                                         for ship in fleet_lst])))
 
@@ -160,11 +146,9 @@ class Human(Player):
             if fleet.get(select.upper()) in fleet_lst:
                 check = self.hide_ships(fleet.get(select.upper()))
                 if check == True:
-                    # only removes if ship was hidden successfully
                     fleet_lst.remove(fleet.get(select.upper()))
-                else: # if hide_ships() returns None start again
+                else:
                     continue
-            # in case user just types <Enter> will pop off first in fleet_lst
             elif select == '':
                 self.hide_ships(fleet_lst.pop(0))
             else:
@@ -179,24 +163,17 @@ class Human(Player):
         show_board(self.brd)
         check = input(PROMPT['good2go'])
 
-        if check == '':
-            return
-        elif check[0].lower() == 'n':
+        if check.lower() == 'n' or check.lower() == 'no':
             print(PROMPT['start_again'])
             self.brd.remove_fleet()
-            return self.human_setup()
+            return self.setup()
         else:
             return
 
-
-
     def hide_ships(self, ship):
-        """ prompts the user to select head using pick_coord() and tail using
-            _full() to hide a ship, and using _head2tail() to show possible
-            coords to hide a ship
-            inputs these coordinates to the Ship's pos
+        """ prompts the user to select head using pick_coord(), _head2tail() to show possible coords for the tail and _full() to select tail to hide a ship
+            sends the ship object and a list of coords to Board
         """
-        # list of currently occupied coords renewed here, used with pick_coord
         self.occupied = set(key for key in self.brd.board if
                                         self.brd.board[key] in FLEET.keys())
 
@@ -206,81 +183,60 @@ class Human(Player):
 
             print(PROMPT['lets_hide'].format(ship))
 
-            # asks for coordinate of head of ship, returns None if invalid
             head = self.pick_coord('hide_head')
-            if head == None:
+            if head = None:
                 continue
 
-            # dict of possible tails given the ship and head coord
             h2t = self._head2tail(ship, head)
-
-            # asks for the coordinate of the tail of the ship to get coords of
-            # whole ship, returns None if invalid
             pos = self._full(h2t)
             if pos == None:
                 continue
 
             display_pos = (convert(coord) for coord in pos)
-
-            # checks whether user is ok to input ship with these coords
             ans = input(PROMPT['pos_ok?'].format(str(ship),
                                                 '  '.join(display_pos)))
 
-            if ans == '': # when user just presses <Enter> record the pos
-                self.brd.place_ship(ship, pos)
-                print(PROMPT['player_hidden'].format(str(ship)))
-                return True
-            # if user is not ok; start again with hiding the ship
-            elif ans[0].lower() == 'n':
-                attempt = 0
-                continue
-            else: # otherwise record the pos
+            if ans.lower() == 'n' or ans.lower() =='no':
+                self.hide_ships(ship)
+            else:
                 self.brd.place_ship(ship, pos)
                 print(PROMPT['player_hidden'].format(str(ship)))
                 return True
 
     def _full(self, h2t):
-        """ uses pick_coord() to prompt user to select the tail coord of the
-            ship from a predetermined dict already invoked by _head2tail()
-            returns the full set of coords for the ship if selection is valid
+        """ uses pick_coord() to prompts user to select the tail coord of the
+            ship from the dict returned by _head2tail()
+            returns the full set of coords to return to hide_ships() if
+            selection is valid
         """
-
-        # if there are no possible tails for the ship, needs new head coord
         if len(h2t) == 0:
             print(PROMPT['no_tail'])
             return None
 
-        # the tail list for user prompt
         options = [convert(key) for key in h2t.keys()]
 
-        # in case there is only one possible tail coord
         if len(h2t) == 1:
-            ans = input(PROMPT['this_tail_ok'].format(options[0]))
-            if ans == '':
-                return h2t.values()[0]
-            elif ans[0].lower() == 'n':
-                return None # goes back to hide_ships()
-            else:
-                return h2t.values()[0]
+            ans = input(PROMPT['this_tail_ok'].format('{ ' + options[0] + ' }'))
 
-        # in case there are multiple tail coords to choose from
+            if ans.lower() == 'n' or ans.lower() == 'no':
+                return None
+            else:
+                return h2t[convert(options[0])]
+
         attempt = 0
         while attempt <= 3:
             attempt += 1
 
-            print(PROMPT['tail_option'].format('{ ' + '\t'.join(options) + ' }'))
+            print(PROMPT['tail_option'].format('{ ' + '   '.join(options) + ' }'))
             tail = self.pick_coord('hide_tail')
 
-            # valid selection will return the coords of the full ship
             if tail in h2t.keys():
                 return h2t[tail]
-            # the special key to relocate the head coord
-            elif tail == 'r':
+            elif tail == 'r': # exception if user wants to revise head coord 
                 return None
             else:
                 continue
 
-        # after 3 failed attempts, return None to go back to hide_ships
         print(PROMPT['wrong_tail'])
         return None
 
@@ -301,7 +257,6 @@ class Human(Player):
                 break
 
         if ask == 'hide_head' and new in self.occupied:
-            # new coord rejected for hiding if it overlaps
             print(PROMPT['occupied'])
             return None
         if ask == 'where2bomb':
@@ -316,19 +271,17 @@ class Computer(Player):
     def __init__(self):
         """players has-a board"""
         self.brd = Board()
-        self.sunk = 0 # count of how many ships have been sunk
-        self.occupied = set() # set of occupied coordinates
-        self.bombed = set() # set of bombed coordinates
+        self.sunk = 0
+        self.occupied = set()
+        self.bombed = set()
 
     def name(self):
         return "Computer"
 
-    def comp_setup(self):
+    def setup(self):
         """gets computer to hide the ships for game play"""
 
-        # a dict for all the ships on comp's board
         fleet = self.brd.fleet
-        # list of ship objects left to hide
         fleet_lst = [fleet[ship] for ship in fleet]
         shuffle(fleet_lst)
 
@@ -341,12 +294,12 @@ class Computer(Player):
         """ computer randomly selects a coordinate to bomb out of a list of
             coord tuples that have not yet been bombed
         """
-        # list of coords yet to be bombed
+
         to_bomb = [coord for coord in self.brd.board.keys() if
                                         coord not in self.bombed]
 
-        bomb = choice(to_bomb) # randomly picks a coord from the list
-        self.bombed.add(bomb) # adds that coord to the bombed set
+        bomb = choice(to_bomb)
+        self.bombed.add(bomb)
 
         print(PROMPT['comp_attack'].format((convert(bomb))))
         return bomb

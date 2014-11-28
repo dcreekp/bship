@@ -8,11 +8,11 @@ comp = Computer()
 
 def test_human_setup():
 
-    one.human_setup()
+    one.setup()
 
 def test_comp_setup():
 
-    comp.comp_setup()
+    comp.setup()
 
 def test_confirm_setup():
 
