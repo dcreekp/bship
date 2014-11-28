@@ -1,9 +1,10 @@
 """defines what a player can do"""
 from abc import ABCMeta, abstractmethod
-from random import choice
+from random import choice, shuffle
 from battleship.board import Board
 from battleship.config import PROMPT, POINT, FLEET
-from battleship.ui import to_quit, clean, convert, prompt_coord
+from battleship.ui import (to_quit, clean, convert, prompt_coord, show_board,
+                            show_game)
 
 class Player(metaclass=ABCMeta):
     """defines the methods players can take and has-board"""
@@ -166,13 +167,9 @@ class Human(Player):
             # in case user just types <Enter> will pop off first in fleet_lst
             elif select == '':
                 self.hide_ships(fleet_lst.pop(0))
-            # in case user selects a ship already hidden
-            elif fleet.get(select.upper()) not in fleet_lst and\
-                                select.upper() in 'KTSYP':
-                print(PROMPT['already_hidden'].format(str(fleet.get(select.upper(
-                    )))))
             else:
-                print(PROMPT['which_ship_explain'])
+                print(PROMPT['which_ship_explain'].format(' '.join([str(ship
+                                .sign) for ship in fleet_lst])))
 
         self._confirm_setup()
 

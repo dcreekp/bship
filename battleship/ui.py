@@ -100,7 +100,7 @@ def prompt_coord(ask):
     # any coord that can't be converted is rejected
     new = convert(coord)
     if new:
-        return new, coord
+        return new
     else:
         print(PROMPT['off_board'])
         return None

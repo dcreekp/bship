@@ -17,9 +17,9 @@ PROMPT = {
 'ready': "\nReady to play? >> ",
 'border': "\n   ===============*Hide Ships*================",
 'turn_line': "\n   ===============* Battle {} *==================",
-'which_ship': "Which ship do you want to hide?\n   {}\t(Type the sign of a ship or type 'A' to autohide.)\n>> ",
-'already_hidden': "You have already hidden the {}.",
-'which_ship_explain': "Select a ship to hide by typing K T S Y or P.\n",
+'which_ship': "Which ship do you want to hide?\n   {}\t(Type the sign of a\
+ ship or type 'A' to autohide.)\n>> ",
+'which_ship_explain': "To hide a ship type one of these letters: {}.\n",
 'good2go': "Are you good with this board?\n(Y/n) >> ",
 'start_again': "OK let's reset the board...",
 'result': "\n   ===============** result **===================",

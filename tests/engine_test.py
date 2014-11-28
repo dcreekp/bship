@@ -3,22 +3,10 @@ from battleship.board import Board
 from battleship.engine import *
 
 bb = Board()
-one = Human(bb)
-comp = Computer(bb)
+one = Human()
+comp = Computer()
 
-check = Engine(one, comp)
 
-def test_human_setup():
-
-    check.human_setup()
-
-def test_comp_setup():
-
-    check.comp_setup()
-
-def test_confirm_setup():
-
-    check._confirm_setup()
 
 def test_sameness():
 

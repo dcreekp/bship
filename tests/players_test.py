@@ -3,8 +3,22 @@ from random import choice
 from battleship.players import Human, Computer
 from battleship.board import Board
 
+one = Human()
+comp = Computer()
 
-check = Human()
+def test_human_setup():
+
+    one.human_setup()
+
+def test_comp_setup():
+
+    comp.comp_setup()
+
+def test_confirm_setup():
+
+    one._confirm_setup()
+
+
 
 def test__init():
 
@@ -57,7 +71,8 @@ def test__full():
 
     #print(check._full(h2t) # should show 2 tail options)
     
-    print(check._full(h2t) # should show 1 tail option)
+    print(check._full(h2t)) # should show 1 tail option)
+
 
 def test_auto_hide_ships():
     
