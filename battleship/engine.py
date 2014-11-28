@@ -125,6 +125,8 @@ class Engine(object):
 
             if self._comp_bomb_human() == 'comp_win':
                 return 'comp_win'
+            input(PROMPT['comprehend'])
+
             if self._human_bomb_comp() == 'human_win':
                 return 'human_win'
 
@@ -150,7 +152,8 @@ class Engine(object):
                 return 'human_win'
             if self._comp_bomb_human() == 'comp_win':
                 return 'comp_win'
-
+            input(PROMPT['comprehend'])
+            
             show_game(self.one.brd, self.comp.brd)
 
     def _human_bomb_comp(self):
@@ -171,7 +174,7 @@ class Engine(object):
         if self.one.sunk == 5:
             return 'comp_win'
 
-        input(PROMPT['comprehend'])
+        
 
     def human_win(self):
         """ end game with human win"""
