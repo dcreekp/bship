@@ -1,15 +1,16 @@
 """defines what a player can do"""
+from abc import ABCMeta, abstractmethod
 from random import choice
 from battleship.board import Board
 from battleship.config import PROMPT, POINT, FLEET
 from battleship.ui import to_quit, clean, convert, prompt_coord
 
-class Player(object):
+class Player(metaclass=ABCMeta):
     """defines the methods players can take and has-board"""
 
+    @abstractmethod
     def name(self):
-        
-        raise NotImplementedError()
+        pass
 
     def auto_hide_ships(self, ship, who=0):
         """ computer randomly selects head coord, then using _head2tail() gets
