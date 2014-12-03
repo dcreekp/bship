@@ -184,7 +184,7 @@ class Human(Player):
             print(PROMPT['lets_hide'].format(ship))
 
             head = self.pick_coord('hide_head')
-            if head = None:
+            if head == None:
                 continue
 
             h2t = self._head2tail(ship, head)

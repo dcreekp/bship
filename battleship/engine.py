@@ -79,11 +79,17 @@ class Engine(object):
             
             show_game(self.one.brd, self.comp.brd)
 
+""" need to separate these _bomb_ functions"""
+
+
     def _human_bomb_comp(self):
         """ uses pick_coord() to prompt user to select a coordinate to bomb
             and send info to comp.brd, checks whether human has won
         """
         bomb = self.one.pick_coord('where2bomb')
+        # Human send to engine
+
+        # engine sends to Computer
         self.comp.receive_shot(bomb)
         if self.comp.sunk == 5:
             return 'human_win'
@@ -93,6 +99,9 @@ class Engine(object):
             bomb and send info to one.brd, checks whether computer has won
         """
         bomb = self.comp.random_pick()
+        # Computer sends to engine
+
+        # engine sends to human
         self.one.receive_shot(bomb)
         if self.one.sunk == 5:
             return 'comp_win'
