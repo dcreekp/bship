@@ -2,30 +2,13 @@ from battleship.players import Human, Computer
 from battleship.board import Board
 from battleship.engine import *
 
-bb = Board()
-one = Human(bb)
-comp = Computer(bb)
+def test_init():
 
-check = Engine(one, comp)
+    game = Engine()
 
-def test_human_setup():
-
-    check.human_setup()
-
-def test_comp_setup():
-
-    check.comp_setup()
-
-def test_confirm_setup():
-
-    check._confirm_setup()
-
-def test_sameness():
-
-    game = Engine(Human(Board()),Computer(Board()))
-
-    assert game.one.brd.board is not game.comp.brd.board
-    assert game.one.brd.fleet is not game.comp.brd.fleet
+    print(type(game.players))
+    print(type(game.current_player))
+    print(type(game.next_player))
 
 def test_play():
 

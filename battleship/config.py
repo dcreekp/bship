@@ -17,9 +17,9 @@ PROMPT = {
 'ready': "\nReady to play? >> ",
 'border': "\n   ===============*Hide Ships*================",
 'turn_line': "\n   ===============* Battle {} *==================",
-'which_ship': "Which ship do you want to hide?\n   {}\t(Type the sign of a ship or type 'A' to autohide.)\n>> ",
-'already_hidden': "You have already hidden the {}.",
-'which_ship_explain': "Select a ship to hide by typing K T S Y or P.\n",
+'which_ship': "Which ship do you want to hide?\n   {}\t(Type the sign of a\
+ ship or type 'A' to autohide.)\n>> ",
+'which_ship_explain': "To hide a ship type one of these letters: {}.\n",
 'good2go': "Are you good with this board?\n(Y/n) >> ",
 'start_again': "OK let's reset the board...",
 'result': "\n   ===============** result **===================",
@@ -45,7 +45,8 @@ PROMPT = {
 'wrong_tail': "You will have to hide the ship with a new head coordinate...",
 'occupied': "These coordinates are already occupied by another ship of your fleet.",
 'no_tail': "For this head coordinate, there are no possible tail coordinates. Choose another head coordinate.",
-'this_tail_ok': "The tail of the ship can be hidden in this coordinate:\n\t{ {} }\n(Y/n) >> ",
+'this_tail_ok': "The tail of the ship can be hidden in this coordinate:\n\t{}\
+\n(Y/n) >> ",
 'quitter': "Are you bored... do you want to quit??\n(Y/n) >> ",
 'pos_ok?': "The {} will be hidden here:\n\t[ {} ]\n(Y/n) >> ",
 'player_attack': "Player1 attacks {}.",
