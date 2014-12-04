@@ -10,8 +10,8 @@ def run():
     game = Engine()
 
     game.start()
-    game.comp_setup()
-    game.human_setup()
+    game.set()
+    game.play()
 
     # starter = game.who_starts()
     initial = randint(1, 2)
