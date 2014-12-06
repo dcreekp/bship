@@ -13,6 +13,10 @@ class Player(metaclass=ABCMeta):
     def name(self):
         pass
 
+    @abstractmethod
+    def where2bomb(self):
+        pass
+
     def auto_hide_ships(self, ship, who=0):
         """ computer randomly selects head coord, then using _head2tail() gets
             a dict of coords, from the given choice randomly selects a list and
@@ -171,7 +175,7 @@ class Human(Player):
             return
 
     def hide_ships(self, ship):
-        """ prompts the user to select head using pick_coord(), _head2tail() to show possible coords for the tail and _full() to select tail to hide a ship
+        """ prompts the user to select head using _pick_coord(), _head2tail() to show possible coords for the tail and _full() to select tail to hide a ship
             sends the ship object and a list of coords to Board
         """
         self.occupied = set(key for key in self.brd.board if
@@ -183,8 +187,9 @@ class Human(Player):
 
             print(PROMPT['lets_hide'].format(ship))
 
-            head = self.pick_coord('hide_head')
-            if head == None:
+            head = self._pick_coord()
+            if head in self.occupied:
+                print(PROMPT['occupied'])
                 continue
 
             h2t = self._head2tail(ship, head)
@@ -204,7 +209,7 @@ class Human(Player):
                 return True
 
     def _full(self, h2t):
-        """ uses pick_coord() to prompts user to select the tail coord of the
+        """ uses _pick_coord() to prompts user to select the tail coord of the
             ship from the dict returned by _head2tail()
             returns the full set of coords to return to hide_ships() if
             selection is valid
@@ -228,7 +233,7 @@ class Human(Player):
             attempt += 1
 
             print(PROMPT['tail_option'].format('{ ' + '   '.join(options) + ' }'))
-            tail = self.pick_coord('hide_tail')
+            tail = self._pick_coord('hide_tail')
 
             if tail in h2t.keys():
                 return h2t[tail]
@@ -241,7 +246,7 @@ class Human(Player):
         return None
 
 
-    def pick_coord(self, ask):
+    def _pick_coord(self, ask=None):
         """ uses prompt_coord() for user input
             returns valid coord entry with appropriate prompt
         """
@@ -256,14 +261,14 @@ class Human(Player):
             if new:
                 break
 
-        if ask == 'hide_head' and new in self.occupied:
-            print(PROMPT['occupied'])
-            return None
-        if ask == 'where2bomb':
-            print(PROMPT['player_attack'].format(convert(new)))
-
         return new
 
+    def where2bomb(self):
+        """Human selects a coordinate to bomb"""
+
+        bomb = self._pick_coord()
+        print(PROMPT['player_attack'].format(convert(bomb)))
+        return bomb
 
 class Computer(Player):
     """defines the actions of the computer as a player"""
@@ -290,9 +295,16 @@ class Computer(Player):
         for ship in fleet_lst:
             self.auto_hide_ships(ship)
 
-    def random_pick(self):
-        """ computer randomly selects a coordinate to bomb out of a list of
-            coord tuples that have not yet been bombed
+    def where2bomb(self):
+        """ Computer selects a coordinate to bomb"""
+
+        bomb = self._random_pick()
+        print(PROMPT['comp_attack'].format((convert(bomb))))
+        return bomb
+
+    def _random_pick(self):
+        """ Computer randomly selects a coordinate out of a list of coord
+            tuples that have not yet been bombed
         """
 
         to_bomb = [coord for coord in self.brd.board.keys() if
@@ -301,5 +313,4 @@ class Computer(Player):
         bomb = choice(to_bomb)
         self.bombed.add(bomb)
 
-        print(PROMPT['comp_attack'].format((convert(bomb))))
         return bomb

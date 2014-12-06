@@ -1,7 +1,5 @@
 """runs the game; Battleships"""
-from random import randint
 from battleship.engine import Engine
-from battleship.players import Human, Computer
 
 
 def run():
@@ -12,19 +10,10 @@ def run():
     game.start()
     game.set()
     game.play()
+    if game.end():
+        return run()
+    print("good game!")
 
-    # starter = game.who_starts()
-    initial = randint(1, 2)
-
-    if initial == 1:
-        result = game.play_human_first()
-    else:
-        result = game.play_comp_first()
-
-    if result == 'human_win':
-        game.human_win()
-    else:
-        game.comp_win()
 
 
 def game_type():
