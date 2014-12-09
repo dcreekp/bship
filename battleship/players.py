@@ -3,7 +3,7 @@ from abc import ABCMeta, abstractmethod
 from random import choice, shuffle
 from battleship.board import Board
 from battleship.config import PROMPT, POINT, FLEET
-from battleship.ui import (to_quit, clean, convert, prompt_coord, show_board,
+from battleship.ui import (to_quit, clean, convert, pick_coord, show_board,
                             show_game)
 
 class Player(metaclass=ABCMeta):
@@ -187,7 +187,7 @@ class Human(Player):
 
             print(PROMPT['lets_hide'].format(ship))
 
-            head = self._pick_coord()
+            head = pick_coord('hide_head')
             if head in self.occupied:
                 print(PROMPT['occupied'])
                 continue
@@ -233,7 +233,7 @@ class Human(Player):
             attempt += 1
 
             print(PROMPT['tail_option'].format('{ ' + '   '.join(options) + ' }'))
-            tail = self._pick_coord('hide_tail')
+            tail = pick_coord('hide_tail')
 
             if tail in h2t.keys():
                 return h2t[tail]
@@ -246,27 +246,10 @@ class Human(Player):
         return None
 
 
-    def _pick_coord(self, ask=None):
-        """ uses prompt_coord() for user input
-            returns valid coord entry with appropriate prompt
-        """
-        attempt = 0
-        while True:
-            attempt += 1
-            if attempt > 5:
-                attempt = to_quit()
-                continue
-
-            new = prompt_coord(ask)
-            if new:
-                break
-
-        return new
-
     def where2bomb(self):
         """Human selects a coordinate to bomb"""
 
-        bomb = self._pick_coord()
+        bomb = pick_coord()
         print(PROMPT['player_attack'].format(convert(bomb)))
         return bomb
 

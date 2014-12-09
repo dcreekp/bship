@@ -80,27 +80,32 @@ def convert(coord):
         coord = D2A[coord[0]] + str(coord[1])
         return coord 
 
-def prompt_coord(ask):
+def pick_coord(ask):
     """ prompts the user to select a coordinate;
         takes a string parameter to specify a prompt
         uses clean() and convert() to validate input
-        returns converted coord and raw coord
+        returns valid coord entry
         returns None for invalid input
     """
+    attempt = 0
+    while True:
+        attempt += 1
+        if attempt > 5:
+            attempt = to_quit()
+            continue
 
-    coord = clean(input(PROMPT[ask]))
+        coord = clean(input(PROMPT[ask]))
 
-    # any coord that clean returns as None is rejected
-    if not coord:
-        print(PROMPT['bad_coord'].format(convert((randint(0, 9), randint(0, 9)))))
-        return None
-    # special case: relocating head coord if user dislikes tail options
-    if ask == 'hide_tail' and coord == 'r':
-        return coord
-    # any coord that can't be converted is rejected
-    new = convert(coord)
-    if new:
-        return new
-    else:
-        print(PROMPT['off_board'])
-        return None
+        if not coord:
+            print(PROMPT['bad_coord'].format(convert((randint(0, 9), randint(0, 9)))))
+            continue
+        # special case: relocating head coord if user dislikes tail options
+        if ask == 'hide_tail' and coord == 'r':
+            return coord
+        
+        new = convert(coord)
+        if new:
+            return new
+        else:
+            print(PROMPT['off_board'])
+            continue
