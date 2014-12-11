@@ -7,8 +7,15 @@ def test_init():
     game = Engine()
 
     print(type(game.players))
-    print(type(game.current_player))
-    print(type(game.next_player))
+    print(type(game.players[0]))
+    print(type(game.players[1]))
+    print(type(game.player))
+
+def test_set():
+
+    game = Engine()
+
+    game.set()
 
 def test_play():
 

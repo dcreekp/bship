@@ -3,8 +3,8 @@ from abc import ABCMeta, abstractmethod
 from random import choice, shuffle
 from battleship.board import Board
 from battleship.config import PROMPT, POINT, FLEET
-from battleship.ui import (to_quit, clean, convert, pick_coord, show_board,
-                            show_game)
+from battleship.ui import (
+    to_quit, clean, convert, pick_coord, show_board, show_game)
 
 class Player(metaclass=ABCMeta):
     """defines the methods players can take and has-board"""
@@ -124,7 +124,7 @@ class Human(Player):
     def name(self):
         return "Player 1"
 
-    def setup(self):
+    def set_up(self):
         """ prompts the user to set up their board; manually choose which ship
             and hide it with hide_ships(), or automatically hide all
         """
@@ -249,7 +249,7 @@ class Human(Player):
     def where2bomb(self):
         """Human selects a coordinate to bomb"""
 
-        bomb = pick_coord()
+        bomb = pick_coord('where2bomb')
         print(PROMPT['player_attack'].format(convert(bomb)))
         return bomb
 
@@ -266,7 +266,7 @@ class Computer(Player):
     def name(self):
         return "Computer"
 
-    def setup(self):
+    def set_up(self):
         """gets computer to hide the ships for game play"""
 
         fleet = self.brd.fleet

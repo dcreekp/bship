@@ -11,8 +11,6 @@ class Engine(object):
     def __init__(self):
         """engine has a list of players"""
         self.players = [Human(), Computer()]
-        self.current_player = self.players[0]
-        self.next_player = self.players[1]
 
     def start(self):
         """starts the game with some instructions"""
@@ -21,29 +19,28 @@ class Engine(object):
 
         self._example_setup()
 
-        eg_ship = choice(list(self.current.brd.fleet.values()))
+        eg_ship = choice(list(self.players[0].brd.fleet.values()))
 
-        print(self.current.brd)
+        print(self.players[0].brd)
 
         print(PROMPT['example'].format(eg_ship, convert(eg_ship.pos[0]),
                                         convert(eg_ship.pos[-1])))
 
-        self.current.brd.remove_fleet()
+        self.players[0].brd.remove_fleet()
 
         input(PROMPT['ready'])
+
 
     def set(self):
         """ set up each player's board, and decides who goes first"""
 
+        for player in self.players:
+            player.set_up()
 
 
-         # starter = game.who_starts()
-        initial = randint(1, 2)
 
-        if initial == 1:
-            result = game.play_human_first()
-        else:
-            result = game.play_comp_first()
+        self.current_player = self.players[0]
+        self.next_player = self.players[1]
 
 
     def play(self):
@@ -67,8 +64,8 @@ class Engine(object):
             if self.next_player.sunk == 5:
                 return # self.end(self.current_player)
 
-            self.current_player, self.next_player = 
-                    self.next_player, self.current_player
+            self.current_player, self.next_player =\
+                self.next_player, self.current_player
 
 
         input(PROMPT['comprehend']) # can go in Computer class
@@ -96,9 +93,9 @@ class Engine(object):
     def _example_setup(self):
         """ setup to show an example of the board and game """
 
-        fleet = self.current.brd.fleet
+        fleet = self.players[0].brd.fleet
         fleet_lst = [fleet[ship] for ship in fleet]
         shuffle(fleet_lst)
 
         for ship in fleet_lst:
-            self.current.auto_hide_ships(ship, 2)
+            self.players[0].auto_hide_ships(ship, 2)
