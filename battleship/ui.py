@@ -1,6 +1,6 @@
 """user interface functions"""
 import sys
-from random import randint
+from random import randint, choice
 from battleship.config import PROMPT
 
 def show_board(one_brd):
@@ -18,6 +18,32 @@ def show_game(one_brd, comp_brd):
     print(comp_brd.__str__(True)) # ships hide=True
     print("\t*DEFEND") # the player's board
     print(one_brd.__str__())
+
+def flip():
+    """decide who goes first"""
+
+    coin = {'H': 'HEADS', 'T': 'TAILS', '': 'HEADS'}
+
+    for n in range(3):
+        try:
+            call = coin[input(PROMPT['call_coin']).upper()]
+            break
+        except KeyError:
+            print(PROMPT['just_call'])
+    else:
+        print(PROMPT['comp_first'])
+        return None
+
+    flip = choice(['HEADS', 'TAILS'])
+
+    print(PROMPT['flip_coin'].format(call, flip))
+
+    if call == flip:
+        print(PROMPT['one_first'])
+        return True
+    else:
+        print(PROMPT['comp_first'])
+        return None
 
 def to_quit():
     """after failed attempts, prompts the user whether to quit"""

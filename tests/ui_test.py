@@ -1,5 +1,5 @@
 import pytest
-from battleship.ui import convert, clean, to_quit
+from battleship.ui import *
 
 def test_to_quit():
 
@@ -25,3 +25,7 @@ def test_convert():
     
     #with pytest.raises(KeyError):
     assert convert('S3') == None
+
+def test_flip():
+
+    flip()

@@ -20,8 +20,14 @@ PROMPT = {
 'which_ship': "Which ship do you want to hide?\n   {}\t(Type the sign of a\
  ship or type 'A' to autohide.)\n>> ",
 'which_ship_explain': "To hide a ship type one of these letters: {}.\n",
-'good2go': "Are you good with this board?\n(Y/n) >> ",
+'good2go': "Are you good with this board?\n([Y]/n) >> ",
 'start_again': "OK let's reset the board...",
+'call_coin': "To decide who goes first, Computer will flip a coin. Heads\
+ or Tails??\n([h]/t) >> ",
+'just_call': "It's quite easy, just type  h  or  t.",
+'flip_coin': "Player calls {}, the coin flips.... {}",
+'one_first': "Player gets to go first!", 
+'comp_first': "Computer will go first.",
 'result': "\n   ===============** result **===================",
 'one_wins': "\n   Player1 wins!\n",
 'comp_wins': "\n   Computer wins!\n",
@@ -46,9 +52,9 @@ PROMPT = {
 'occupied': "These coordinates are already occupied by another ship of your fleet.",
 'no_tail': "For this head coordinate, there are no possible tail coordinates. Choose another head coordinate.",
 'this_tail_ok': "The tail of the ship can be hidden in this coordinate:\n\t{}\
-\n(Y/n) >> ",
-'quitter': "Are you bored... do you want to quit??\n(Y/n) >> ",
-'pos_ok?': "The {} will be hidden here:\n\t[ {} ]\n(Y/n) >> ",
+\n([Y]/n) >> ",
+'quitter': "Are you bored... do you want to quit??\n([Y]/n) >> ",
+'pos_ok?': "The {} will be hidden here:\n\t[ {} ]\n([Y]/n) >> ",
 'player_attack': "Player1 attacks {}.",
 'comp_attack': "Computer attacks {}.",
 'bored': "OK you're bored, Goodbye!!"

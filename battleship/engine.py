@@ -2,7 +2,7 @@
 from random import shuffle, choice, randint
 from battleship.players import Human, Computer
 from battleship.config import PROMPT
-from battleship.ui import show_board, show_game, convert
+from battleship.ui import show_board, show_game, convert, flip
 
 
 class Engine(object):
@@ -10,7 +10,7 @@ class Engine(object):
 
     def __init__(self):
         """engine has a list of players"""
-        self.players = [Human(), Computer()]
+        self.players = [Computer(), Human()]
 
     def start(self):
         """starts the game with some instructions"""
@@ -32,15 +32,17 @@ class Engine(object):
 
 
     def set(self):
-        """ set up each player's board, and decides who goes first"""
+        """ set up each player's board, and decides who goes first with flip()"""
 
         for player in self.players:
             player.set_up()
 
-
-
-        self.current_player = self.players[0]
-        self.next_player = self.players[1]
+        if flip():
+            self.current_player = self.players[1]
+            self.next_player = self.players[0]
+        else:
+            self.current_player = self.players[0]
+            self.next_player = self.players[1]
 
 
     def play(self):
@@ -52,7 +54,7 @@ class Engine(object):
         
         # show the board here
 
-        while turn <= 100:
+        while True:
             turn += 1
 
             print(PROMPT['turn_line'].format(turn))
