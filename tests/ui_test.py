@@ -29,3 +29,8 @@ def test_convert():
 def test_flip():
 
     flip()
+
+
+def test_pick_coord():
+
+    pick_coord('hide_tail')

@@ -209,7 +209,7 @@ class Human(Player):
                 return True
 
     def _full(self, h2t):
-        """ uses _pick_coord() to prompts user to select the tail coord of the
+        """ uses _pick_coord() to prompt user to select the tail coord of the
             ship from the dict returned by _head2tail()
             returns the full set of coords to return to hide_ships() if
             selection is valid

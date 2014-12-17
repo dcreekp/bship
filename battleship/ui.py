@@ -54,9 +54,7 @@ def to_quit():
         sys.exit()
     elif ans[0].lower() == 'n':
         attempt = 0
-        return attempt  
-    #elif ans[0].lower() and place == 'start'
-        #return 
+        return attempt
     else:
         sys.exit()
 

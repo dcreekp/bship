@@ -44,20 +44,22 @@ class Engine(object):
             self.current_player = self.players[0]
             self.next_player = self.players[1]
 
+        input(PROMPT['comprehend'])
 
     def play(self):
         """ rolls out the turns, determines who wins"""
 
         turn = 0
-
+        first2go = self.current_player
+        
         print(PROMPT['turn_line'].format(turn))
         
         # show the board here
 
         while True:
-            turn += 1
-
-            print(PROMPT['turn_line'].format(turn))
+            if self.current_player == first2go:
+                turn += 1
+                print(PROMPT['turn_line'].format(turn))
 
             point = self.current_player.where2bomb() # "POST request"
             self.next_player.receive_shot(point) # "GET request"
