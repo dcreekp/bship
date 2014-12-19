@@ -53,8 +53,7 @@ def to_quit():
     if ans == '':
         sys.exit()
     elif ans[0].lower() == 'n':
-        attempt = 0
-        return attempt
+        return None
     else:
         sys.exit()
 
@@ -111,13 +110,8 @@ def pick_coord(ask):
         returns valid coord entry
         returns None for invalid input
     """
-    attempt = 0
-    while True:
-        attempt += 1
-        if attempt > 5:
-            attempt = to_quit()
-            continue
 
+    for n in range(5):
         coord = clean(input(PROMPT[ask]))
 
         if not coord:
@@ -133,3 +127,6 @@ def pick_coord(ask):
         else:
             print(PROMPT['off_board'])
             continue
+    else:
+        to_quit()
+        

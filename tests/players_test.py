@@ -6,13 +6,13 @@ from battleship.board import Board
 one = Human()
 comp = Computer()
 
-def test_human_setup():
+def test_human_set_up():
 
-    one.setup()
+    one.set_up()
 
-def test_comp_setup():
+def test_comp_set_up():
 
-    comp.setup()
+    comp.set_up()
 
 def test_confirm_setup():
 
@@ -72,6 +72,13 @@ def test__full():
     #print(check._full(h2t) # should show 2 tail options)
     
     print(check._full(h2t)) # should show 1 tail option)
+
+def test__full_one():
+
+    h2t = {(3,3) : [(4,3), (3,3)]}
+
+    one._full(h2t)
+
 
 
 def test_auto_hide_ships():

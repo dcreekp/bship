@@ -5,7 +5,7 @@
 from battleship.ship import Ship
 
 PROMPT = {
-## .control
+## .engine
 'title': "\n\t    **BATTLESHIPS**\n",
 'explain': """   Battleships is a two player guessing game.
    Each player hides five ships, and takes turns to guess
@@ -32,6 +32,7 @@ PROMPT = {
 'one_wins': "\n   Player1 wins!\n",
 'comp_wins': "\n   Computer wins!\n",
 'comprehend': ">>",
+'play_again': "Do you want to play again??\n >> ",
 ## .players
 'miss': "   MISS!",
 'already_shot': "   You've already shot here, what a waste!",

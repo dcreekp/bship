@@ -44,7 +44,7 @@ class Player(metaclass=ABCMeta):
 
     def _head2tail(self, ship, head):
         """ given the Ship, its head coord and size, returns a dict
-            with each tail as key to the full set of coords for each
+            with each tail as key to the full list of coords for each
             possible ship direction
         """
         diff = 1 # difference between the head and the tail
@@ -165,12 +165,12 @@ class Human(Player):
         """display the completed board setup for player to confirm or revise"""
 
         show_board(self.brd)
-        check = input(PROMPT['good2go'])
+        check = input(PROMPT['good2go']).lower()
 
-        if check.lower() == 'n' or check.lower() == 'no':
+        if check == 'n' or check == 'no':
             print(PROMPT['start_again'])
             self.brd.remove_fleet()
-            return self.setup()
+            return self.set_up()
         else:
             return
 
@@ -181,15 +181,14 @@ class Human(Player):
         self.occupied = set(key for key in self.brd.board if
                                         self.brd.board[key] in FLEET.keys())
 
-        attempt = 0
-        while attempt <= 3:
-            attempt += 1
-
+        for n in range(3):
             print(PROMPT['lets_hide'].format(ship))
 
             head = pick_coord('hide_head')
             if head in self.occupied:
                 print(PROMPT['occupied'])
+                continue
+            if head == None:
                 continue
 
             h2t = self._head2tail(ship, head)
@@ -199,9 +198,9 @@ class Human(Player):
 
             display_pos = (convert(coord) for coord in pos)
             ans = input(PROMPT['pos_ok?'].format(str(ship),
-                                                '  '.join(display_pos)))
+                                                '  '.join(display_pos))).lower()
 
-            if ans.lower() == 'n' or ans.lower() =='no':
+            if ans == 'n' or ans =='no':
                 self.hide_ships(ship)
             else:
                 self.brd.place_ship(ship, pos)
@@ -221,17 +220,15 @@ class Human(Player):
         options = [convert(key) for key in h2t.keys()]
 
         if len(h2t) == 1:
-            ans = input(PROMPT['this_tail_ok'].format('{ ' + options[0] + ' }'))
+            ans = input(PROMPT['this_tail_ok'].format('{ ' + options[0] + ' }'))\
+                            .lower()
 
-            if ans.lower() == 'n' or ans.lower() == 'no':
+            if ans == 'n' or ans == 'no':
                 return None
             else:
                 return h2t[convert(options[0])]
 
-        attempt = 0
-        while attempt <= 3:
-            attempt += 1
-
+        for n in range(3):
             print(PROMPT['tail_option'].format('{ ' + '   '.join(options) + ' }'))
             tail = pick_coord('hide_tail')
 
@@ -241,9 +238,9 @@ class Human(Player):
                 return None
             else:
                 continue
-
-        print(PROMPT['wrong_tail'])
-        return None
+        else:
+            print(PROMPT['wrong_tail'])
+            return None
 
 
     def where2bomb(self):
@@ -252,6 +249,14 @@ class Human(Player):
         bomb = pick_coord('where2bomb')
         print(PROMPT['player_attack'].format(convert(bomb)))
         return bomb
+
+    def win(self):
+        """declares Human as the winner and shows the board"""
+
+        print(PROMPT['result'])
+        #show_game(self.players[1].brd, self.players[0].brd)
+        print(PROMPT['one_wins'])
+
 
 class Computer(Player):
     """defines the actions of the computer as a player"""
@@ -297,3 +302,10 @@ class Computer(Player):
         self.bombed.add(bomb)
 
         return bomb
+
+    def win(self):
+        """declares Computer as the winner and shows the board"""
+
+        print(PROMPT['result'])
+        #show_game(self.players[1].brd, self.players[0].brd) 
+        print(PROMPT['comp_wins'])

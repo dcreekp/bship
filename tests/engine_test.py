@@ -1,3 +1,4 @@
+
 from battleship.players import Human, Computer
 from battleship.board import Board
 from battleship.engine import *
@@ -30,3 +31,14 @@ def test_choice():
 def test_start():
 
     check.start()
+
+def test_end():
+
+    game = Engine()
+
+    #game.end(game.players[0])
+
+    if game.end():
+        print("again")
+        return
+    print("good game!")

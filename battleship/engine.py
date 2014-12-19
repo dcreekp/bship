@@ -54,7 +54,7 @@ class Engine(object):
         
         print(PROMPT['turn_line'].format(turn))
         
-        # show the board here
+        show_game(self.players[1].brd, self.players[0].brd) 
 
         while True:
             if self.current_player == first2go:
@@ -64,35 +64,26 @@ class Engine(object):
             point = self.current_player.where2bomb() # "POST request"
             self.next_player.receive_shot(point) # "GET request"
 
+            if self.current_player != first2go:
+                show_game(self.players[1].brd, self.players[0].brd) 
+                input(PROMPT['comprehend'])
 
             if self.next_player.sunk == 5:
-                return # self.end(self.current_player)
-
+                return self.current_player.win()
+            
             self.current_player, self.next_player =\
                 self.next_player, self.current_player
 
 
-        input(PROMPT['comprehend']) # can go in Computer class
-
-        show_game(self.one.brd, self.comp.brd) 
-            # show game will go in Human class
-
     def end(self):
-        pass
+        """ asks whether to play again or not"""
 
-    def human_win(self):
-        """ end game with human win"""
+        again = input(PROMPT['play_again']).lower()
 
-        print(PROMPT['result'])
-        show_game(self.one.brd, self.comp.brd)
-        print(PROMPT['one_wins'])
-
-    def comp_win(self):
-        """ end game with computer win"""
-
-        print(PROMPT['result'])
-        show_game(self.one.brd, self.comp.brd)
-        print(PROMPT['comp_wins'])
+        if again == 'n' or again == 'no':
+            return None
+        else:
+            return True
 
     def _example_setup(self):
         """ setup to show an example of the board and game """
