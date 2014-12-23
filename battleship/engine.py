@@ -54,18 +54,19 @@ class Engine(object):
         
         print(PROMPT['turn_line'].format(turn))
         
-        show_game(self.players[1].brd, self.players[0].brd) 
+        print(self.players[1].brd) 
 
         while True:
             if self.current_player == first2go:
                 turn += 1
                 print(PROMPT['turn_line'].format(turn))
 
-            point = self.current_player.where2bomb() # "POST request"
-            self.next_player.receive_shot(point) # "GET request"
+            point = self.current_player.where2bomb() 
+            received = self.next_player.receive_shot(point)
+            self.current_player.record_shot(received)
 
             if self.current_player != first2go:
-                show_game(self.players[1].brd, self.players[0].brd) 
+                print(self.players[1].brd) 
                 input(PROMPT['comprehend'])
 
             if self.next_player.sunk == 5:

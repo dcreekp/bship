@@ -42,13 +42,15 @@ def test_remove_fleet():
 
 def test_board__str__():
 
-    check.board[(0,0)] = 'S'
-    check.board[(0,1)] = 'S'
-    check.board[(0,2)] = 'S'
-    check.board[(6,4)] = '@'
+    check.attack[(0,0)] = 'S'
+    check.attack[(0,1)] = 'S'
+    check.attack[(0,2)] = 'S'
+    check.attack[(6,4)] = '@'
+    
+    check.defend[(0,0)] = 's'
+    check.defend[(0,1)] = 's'
+    check.defend[(0,2)] = 's'
+    check.defend[(4,6)] = 'X'
 
-    print('\n')
-    print(check.__str__(True))
-    #print('ABCDEFGHIJKLMNOPQRST'[:check.rows])
-    print('\n')
+    print('')
     print(check)

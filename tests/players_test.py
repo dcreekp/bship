@@ -2,6 +2,7 @@ import pytest
 from random import choice
 from battleship.players import Human, Computer
 from battleship.board import Board
+from battleship.ship import Ship
 
 one = Human()
 comp = Computer()
@@ -149,29 +150,44 @@ def test_random_pick():
 
 def test__hit():
 
-    check = Board(5)
-    
-    check._hit(check.fleet['P'],(0,0))
-    check._hit(check.fleet['P'],(0,1))
 
-    print(check.brd)
+    
+    comp._hit(comp.brd.fleet['P'],(0,0))
+    print(comp.brd)
+
+    comp._hit(comp.brd.fleet['P'],(0,1))
+
+    print(comp.brd)
 
 def test_receive_shot():
 
-    check.brd.board[(0,0)] = 'x'
-    check.brd.board[(1,1)] = '@'
-    check.brd.board[(2,2)] = 'k'
-    check.brd.board[(2,3)] = 't'
-    check.brd.board[(3,3)] = '.'
-    check.brd.board[(4,4)] = 'K'
+    check.brd.defend[(0,0)] = 'x'
+    check.brd.defend[(1,1)] = '@'
+    check.brd.defend[(2,2)] = 'k'
+    check.brd.defend[(2,3)] = 't'
+    check.brd.defend[(3,3)] = '.'
+    check.brd.defend[(4,4)] = 'K'
 
     print(check.brd)
 
     check.receive_shot((0,0))
-    assert check.brd.board[(0,0)] == 'x'
+    assert check.brd.defend[(0,0)] == 'x'
     check.receive_shot((2,2))
-    assert check.brd.board[(2,2)] == 'k'
+    assert check.brd.defend[(2,2)] == 'k'
     check.receive_shot((3,3)) 
-    assert check.brd.board[(3,3)] == "x"
+    assert check.brd.defend[(3,3)] == "x"
     check.receive_shot((4,4)) 
-    assert check.brd.board[(4,4)] == "@"
+    assert check.brd.defend[(4,4)] == "@"
+
+
+def test_record_shot():
+
+    P = Ship('Patrol Boat', 'P', 2)
+
+    P.pos = [(2,2), (2,3)]
+
+    one.record_shot(P)
+
+    new = (4,5)
+    shot = 'O'
+    one.record_shot(new, shot)

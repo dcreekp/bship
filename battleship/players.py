@@ -22,11 +22,11 @@ class Player(metaclass=ABCMeta):
             a dict of coords, from the given choice randomly selects a list and
             returns the ship object and its coords to Board
         """
-        self.occupied = set(key for key in self.brd.board if
-                                self.brd.board[key] in FLEET.keys())
+        self.occupied = set(key for key in self.brd.defend if
+                                self.brd.defend[key] in FLEET.keys())
 
         while True:
-            head = choice(list(self.brd.board.keys()))
+            head = choice(list(self.brd.defend.keys()))
             h2t = self._head2tail(ship, head)
             try:
                 pos = choice(list(h2t.values()))
@@ -79,22 +79,35 @@ class Player(metaclass=ABCMeta):
 
     def receive_shot(self, new):
         """ takes a new tuple which is the coordinate of where to shoot,
-            compares what is at the coordinate on the board and distributes
-            action; miss, already shot, hit
+            compares what is at the coordinate on receiver's defend board
+            and distributes action; miss, already shot, hit
         """
-        shot = self.brd.board[new]
+        shot = self.brd.defend[new]
+
+        if shot in (FLEET.keys()):
+            return self._hit(self.brd.fleet[shot], new)
 
         if shot == POINT['open']:
-            self.brd.record_miss(new)
+            self.brd.record_defend_miss(new)
             print(PROMPT['miss'])
-        elif shot in POINT.values():
+            return new, POINT['miss']
+
+        if shot in POINT.values():
             print(PROMPT['already_shot'])
-        elif shot in (key.lower() for key in FLEET):
+        if shot in (key.lower() for key in FLEET):
             print(PROMPT['already_sunk'])
-        elif shot in (FLEET.keys()):
-            self._hit(self.brd.fleet[shot], new)
-        else:
-            pass  # maybe raise error here
+
+        return new, shot
+
+    def record_shot(self, *args):
+
+        try:
+            new, shot = args[0], args[1]
+            self.brd.record_attack(new, shot)
+        except IndexError:
+            ship = args
+            self.brd.record_attack_sunk(ship)
+
 
     def _hit(self, ship, new):
         """ takes the new coord that needs to be changed to a hit
@@ -106,11 +119,13 @@ class Player(metaclass=ABCMeta):
 
         if ship.hits == ship.size:
             print(PROMPT['sunk'].format(str(ship)))
-            self.brd.record_sunk(ship)
+            self.brd.record_defend_sunk(ship)
             self.sunk += 1
+            return ship
         else:
             print(PROMPT['hit'].format(str(ship)))
-            self.brd.record_hit(new)
+            self.brd.record_defend_hit(new)
+            return new, POINT['hit']
 
 class Human(Player):
     """defines the actions of a human player"""
@@ -135,7 +150,7 @@ class Human(Player):
         while len(fleet_lst) > 0:
             print(PROMPT['border'])
 
-            show_board(self.brd)
+            print(self.brd)
 
             select = input(PROMPT['which_ship'].format('\n   '.join([str(ship)
                                                         for ship in fleet_lst])))
@@ -164,7 +179,7 @@ class Human(Player):
     def _confirm_setup(self):
         """display the completed board setup for player to confirm or revise"""
 
-        show_board(self.brd)
+        print(self.brd)
         check = input(PROMPT['good2go']).lower()
 
         if check == 'n' or check == 'no':
@@ -178,8 +193,8 @@ class Human(Player):
         """ prompts the user to select head using _pick_coord(), _head2tail() to show possible coords for the tail and _full() to select tail to hide a ship
             sends the ship object and a list of coords to Board
         """
-        self.occupied = set(key for key in self.brd.board if
-                                        self.brd.board[key] in FLEET.keys())
+        self.occupied = set(key for key in self.brd.defend if
+                                        self.brd.defend[key] in FLEET.keys())
 
         for n in range(3):
             print(PROMPT['lets_hide'].format(ship))
@@ -254,6 +269,7 @@ class Human(Player):
         """declares Human as the winner and shows the board"""
 
         print(PROMPT['result'])
+        print(self.brd)
         #show_game(self.players[1].brd, self.players[0].brd)
         print(PROMPT['one_wins'])
 
@@ -295,7 +311,7 @@ class Computer(Player):
             tuples that have not yet been bombed
         """
 
-        to_bomb = [coord for coord in self.brd.board.keys() if
+        to_bomb = [coord for coord in self.brd.attack.keys() if
                                         coord not in self.bombed]
 
         bomb = choice(to_bomb)
@@ -307,5 +323,6 @@ class Computer(Player):
         """declares Computer as the winner and shows the board"""
 
         print(PROMPT['result'])
+        print(self.brd)
         #show_game(self.players[1].brd, self.players[0].brd) 
         print(PROMPT['comp_wins'])
