@@ -1,6 +1,4 @@
-""" config.py contains
-    prompts and
-    functions to display the Board
+""" config.py contains configuration constants
 """
 from battleship.ship import Ship
 

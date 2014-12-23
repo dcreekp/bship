@@ -76,7 +76,7 @@ class Board(object):
         """
         for coord in ship.pos:
             self.board[coord] = POINT['open']
-        ship.empty()
+        ship.pos = []
 
     def remove_fleet(self):
         """ to remove a fleet of ships from the board and deletes

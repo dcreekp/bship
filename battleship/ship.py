@@ -13,8 +13,3 @@ class Ship(object):
     def __str__(self):
         """ prints like: Y Destroyer(3)"""
         return "{} {}({})".format(self.sign, self.name, self.size)
-
-    def empty(self):
-        """ empties the POS for a new POS """
-
-        self.pos = []
