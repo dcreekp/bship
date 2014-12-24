@@ -12,7 +12,6 @@ def run():
     game.play()
     if game.end():
         return run()
-    print("good game!")
 
 
 def game_type():

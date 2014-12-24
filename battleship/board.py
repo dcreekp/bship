@@ -63,8 +63,8 @@ class Board(object):
             str_defend.append('\t{} {}'.format(row, ''.join(def_row)))
         # inserts \n in between each item in str_board to print each
         # att_row on a new line
-        return "\t*ATTACK\n" + '\n'.join(str_attack) + "\n\t*DEFEND\n" +\
-            '\n'.join(str_defend)
+        return "\n\t*ATTACK\n" + '\n'.join(str_attack) + "\n\t*DEFEND\n" +\
+            '\n'.join(str_defend) + '\n'
 
     def place_ship(self, ship, pos):
         """ record the ship's pos and place a ship on the board
