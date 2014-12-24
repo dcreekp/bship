@@ -2,6 +2,7 @@
 from battleship.ship import Ship
 from battleship.config import POINT
 
+
 class Board(object):
     """has-a board dict and has-a fleet of Ship()s"""
 
@@ -22,20 +23,20 @@ class Board(object):
                 self.defend[(col, row)] = POINT['open']
 
         self.fleet = {
-                'K': Ship('AircraftCarrier', 'K', 5),
-                'T': Ship('Battleship', 'T', 4),
-                'S': Ship('Submarine', 'S', 3),
-                'Y': Ship('Destroyer', 'Y', 3),
-                'P': Ship('PatrolBoat', 'P', 2)
-                    }
+            'K': Ship('AircraftCarrier', 'K', 5),
+            'T': Ship('Battleship', 'T', 4),
+            'S': Ship('Submarine', 'S', 3),
+            'Y': Ship('Destroyer', 'Y', 3),
+            'P': Ship('PatrolBoat', 'P', 2)
+            }
 
     def __str__(self, hide=False):
         """ converts board dict tuple as key into a list of list to display
             It will or will not display ships depending on the second parameter
         """
-        str_attack = [] # will become a list containing att_row lists
+        str_attack = []  # will become a list containing att_row lists
         str_defend = []
-        
+
         # the column reference row is being made first
         att_row = []
         def_row = []
@@ -46,7 +47,7 @@ class Board(object):
         def_row.insert(0, '+')
 
         # the col_ref row is appended to the str_board list
-        str_attack.append('\t{}'.format(''.join(att_row))) 
+        str_attack.append('\t{}'.format(''.join(att_row)))
         str_defend.append('\t{}'.format(''.join(def_row)))
 
         # the dict will be organised into lists
@@ -60,9 +61,10 @@ class Board(object):
             # appends each att_row along with each row's reference
             str_attack.append('\t{} {}'.format(row, ''.join(att_row)))
             str_defend.append('\t{} {}'.format(row, ''.join(def_row)))
-        # inserts \n in between each item in str_board to print each att_row on a new line
+        # inserts \n in between each item in str_board to print each
+        # att_row on a new line
         return "\t*ATTACK\n" + '\n'.join(str_attack) + "\n\t*DEFEND\n" +\
-                '\n'.join(str_defend)
+            '\n'.join(str_defend)
 
     def place_ship(self, ship, pos):
         """ record the ship's pos and place a ship on the board
@@ -99,7 +101,7 @@ class Board(object):
 
     def record_defend_sunk(self, ship):
         """changes the point representation of the list of coords to a sunk"""
-        
+
         for coord in ship.pos:
             self.defend[coord] = ship.sign.lower()
 

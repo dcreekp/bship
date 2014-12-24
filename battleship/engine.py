@@ -24,15 +24,16 @@ class Engine(object):
         print(self.players[0].brd)
 
         print(PROMPT['example'].format(eg_ship, convert(eg_ship.pos[0]),
-                                        convert(eg_ship.pos[-1])))
+                                       convert(eg_ship.pos[-1])))
 
         self.players[0].brd.remove_fleet()
 
         input(PROMPT['ready'])
 
-
     def set(self):
-        """ set up each player's board, and decides who goes first with flip()"""
+        """ set up each player's board, and decides who goes first
+            with flip()
+        """
 
         for player in self.players:
             player.set_up()
@@ -51,30 +52,29 @@ class Engine(object):
 
         turn = 0
         first2go = self.current_player
-        
+
         print(PROMPT['turn_line'].format(turn))
-        
-        print(self.players[1].brd) 
+
+        print(self.players[1].brd)
 
         while True:
             if self.current_player == first2go:
                 turn += 1
                 print(PROMPT['turn_line'].format(turn))
 
-            point = self.current_player.where2bomb() 
+            point = self.current_player.where2bomb()
             received = self.next_player.receive_shot(point)
             self.current_player.record_shot(received)
 
             if self.current_player != first2go:
-                print(self.players[1].brd) 
+                print(self.players[1].brd)
                 input(PROMPT['comprehend'])
 
             if self.next_player.sunk == 5:
                 return self.current_player.win()
-            
+
             self.current_player, self.next_player =\
                 self.next_player, self.current_player
-
 
     def end(self):
         """ asks whether to play again or not"""

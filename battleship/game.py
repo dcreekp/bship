@@ -15,7 +15,6 @@ def run():
     print("good game!")
 
 
-
 def game_type():
     """user can choose playing against computer or another user"""
     pass

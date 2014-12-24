@@ -3,21 +3,24 @@ import sys
 from random import randint, choice
 from battleship.config import PROMPT
 
+
 def show_board(one_brd):
     """takes the player's Board and displays it with Board's __str__"""
 
     print("\n\t*Player1 Board")
     print(one_brd.__str__() + '\n')
 
+
 def show_game(one_brd, comp_brd):
     """ takes the player's Board and displays it with Board's __str__
         takes computer's Board and displays the board without revealing
         ship location
     """
-    print("\t*ATTACK") # the computer's board
-    print(comp_brd.__str__(True)) # ships hide=True
-    print("\t*DEFEND") # the player's board
+    print("\t*ATTACK")  # the computer's board
+    print(comp_brd.__str__(True))  # ships hide=True
+    print("\t*DEFEND")  # the player's board
     print(one_brd.__str__())
+
 
 def flip():
     """decide who goes first"""
@@ -45,11 +48,12 @@ def flip():
         print(PROMPT['comp_first'])
         return None
 
+
 def to_quit():
     """after failed attempts, prompts the user whether to quit"""
 
     ans = input(PROMPT['quitter'])
-    
+
     if ans == '':
         sys.exit()
     elif ans[0].lower() == 'n':
@@ -60,7 +64,7 @@ def to_quit():
 
 def clean(entry):
     """ parses user input
-        mostly will convert user input to a two character ALPHAdigit string 
+        mostly will convert user input to a two character ALPHAdigit string
     """
     # special case of being able to quit
     if entry.lower() == 'q':
@@ -77,6 +81,7 @@ def clean(entry):
         return entry.upper()
     else:
         return None
+
 
 def convert(coord):
     """ converts coordinate as displayed coordinates to digit tuple
@@ -96,12 +101,13 @@ def convert(coord):
             if 0 <= coord[1] < 10:
                 return coord
             else:
-                return None # reject if row not in range(10)
+                return None  # reject if row not in range(10)
         except KeyError:
-            return None # reject if col not in 'ABCDEFGHIJ'
+            return None  # reject if col not in 'ABCDEFGHIJ'
     else:
         coord = D2A[coord[0]] + str(coord[1])
-        return coord 
+        return coord
+
 
 def pick_coord(ask):
     """ prompts the user to select a coordinate;
@@ -115,12 +121,13 @@ def pick_coord(ask):
         coord = clean(input(PROMPT[ask]))
 
         if not coord:
-            print(PROMPT['bad_coord'].format(convert((randint(0, 9), randint(0, 9)))))
+            print(PROMPT['bad_coord'].format(convert((randint(0, 9),
+                  randint(0, 9)))))
             continue
         # special case: relocating head coord if user dislikes tail options
         if ask == 'hide_tail' and coord == 'r':
             return coord
-        
+
         new = convert(coord)
         if new:
             return new
@@ -129,4 +136,3 @@ def pick_coord(ask):
             continue
     else:
         to_quit()
-        

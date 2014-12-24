@@ -1,5 +1,6 @@
 """ship.py contains Ship class"""
 
+
 class Ship(object):
     """the properties of a ship"""
 
