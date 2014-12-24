@@ -3,8 +3,7 @@ from abc import ABCMeta, abstractmethod
 from random import choice, shuffle
 from battleship.board import Board
 from battleship.config import PROMPT, POINT, FLEET
-from battleship.ui import (
-    to_quit, clean, convert, pick_coord, show_board, show_game)
+from battleship.ui import convert, pick_coord
 
 
 class Player(metaclass=ABCMeta):
@@ -84,7 +83,7 @@ class Player(metaclass=ABCMeta):
         """
         shot = self.brd.defend[new]
 
-        if shot in (FLEET.keys()):
+        if shot in FLEET.keys():
             return self._hit(self.brd.fleet[shot], new)
 
         if shot == POINT['open']:
@@ -99,14 +98,13 @@ class Player(metaclass=ABCMeta):
 
         return new, shot
 
-    def record_shot(self, *args):
-
-        try:
-            new, shot = args[0], args[1]
-            self.brd.record_attack(new, shot)
-        except IndexError:
-            ship = args
-            self.brd.record_attack_sunk(ship)
+    def record_shot(self, result):
+        """ records the result of the shot on the attack board of each player
+        """
+        if type(result) == tuple:
+            self.brd.record_attack(result[0], result[1])
+        else:
+            self.brd.record_attack_sunk(result)
 
     def _hit(self, ship, new):
         """ takes the new coord that needs to be changed to a hit
@@ -153,13 +151,12 @@ class Human(Player):
             print(self.brd)
 
             select = input(PROMPT['which_ship'].format('\n   '.join([str(ship)
-                                                       for ship in fleet_lst])))
+                           for ship in fleet_lst])))
 
             if select.lower() == 'a':  # automates the hiding process
                 for ship in fleet_lst:
                     self.auto_hide_ships(ship, 1)
-                self._confirm_setup()
-                return
+                return self._confirm_setup()
 
             # for manually hiding the selected ship
             if fleet.get(select.upper()) in fleet_lst:
@@ -252,13 +249,13 @@ class Human(Player):
 
             if tail in h2t.keys():
                 return h2t[tail]
-            elif tail == 'r':  # exception if user wants to revise head coord 
+            elif tail == 'r':  # exception if user wants to revise head coord
                 return None
             else:
                 continue
-        else:
-            print(PROMPT['wrong_tail'])
-            return None
+
+        print(PROMPT['wrong_tail'])
+        return None
 
     def where2bomb(self):
         """Human selects a coordinate to bomb"""
@@ -326,5 +323,5 @@ class Computer(Player):
 
         print(PROMPT['result'])
         print(self.brd)
-        # show_game(self.players[1].brd, self.players[0].brd) 
+        # show_game(self.players[1].brd, self.players[0].brd)
         print(PROMPT['comp_wins'])

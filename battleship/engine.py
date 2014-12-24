@@ -63,8 +63,8 @@ class Engine(object):
                 print(PROMPT['turn_line'].format(turn))
 
             point = self.current_player.where2bomb()
-            received = self.next_player.receive_shot(point)
-            self.current_player.record_shot(received)
+            point = self.next_player.receive_shot(point)
+            self.current_player.record_shot(point)
 
             if self.current_player != first2go:
                 print(self.players[1].brd)

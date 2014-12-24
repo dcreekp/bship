@@ -8,13 +8,13 @@ PROMPT = {
     'explain': """   Battleships is a two player guessing game.
    Each player hides five ships, and takes turns to guess
    the coordinates of their enemy's ships.
-   The first player to sink all five enemy ships is the winner.\n""",
-    'example': """\n   The ships are labelled as Sign Name(Size).
+   The first player to sink all five enemy ships is the winner.""",
+    'example': """   The ships are labelled as Sign Name(Size).
    for example: {} has head coordinate {}
    and tail coordinate {}.""",
     'ready': "\nReady to play? >> ",
     'border': "\n   ===============*Hide Ships*================",
-    'turn_line': "\n   ===============* Battle {} *==================",
+    'turn_line': "   ===============* Battle {} *==================",
     'which_ship': "Which ship do you want to hide?\n   {}\t(Type the sign of a\
  ship or type 'A' to autohide.)\n>> ",
     'which_ship_explain': "To hide a ship type one of these letters: {}.\n",
