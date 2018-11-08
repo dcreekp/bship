@@ -1,7 +1,5 @@
-"""ship.py contains Ship class"""
 
 class Ship(object):
-    """the properties of a ship"""
 
     def __init__(self, name, sign, size):
         self.name = name
@@ -11,10 +9,11 @@ class Ship(object):
         self.pos = []
 
     def __str__(self):
-        """ prints like: Y Destroyer(3)"""
+        """Prints like: Y Destroyer(3).
+        """
         return "{} {}({})".format(self.sign, self.name, self.size)
 
     def empty(self):
-        """ empties the POS for a new POS """
-
+        """Empties the POS for a new POS.
+        """
         self.pos = []

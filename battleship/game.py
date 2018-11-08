@@ -1,10 +1,9 @@
-"""runs the game; Battleships"""
 from battleship.engine import Engine
 
 
 def run():
-    """runs the Engine methods in the right order"""
-
+    """Runs the Engine methods in the right order.
+    """
     game = Engine()
 
     game.start()
@@ -15,10 +14,11 @@ def run():
     print("good game!")
 
 
-
 def game_type():
-    """user can choose playing against computer or another user"""
+    """User can choose playing against computer or another user.
+    """
     pass
+
 
 if __name__ == "__main__":
     run()
