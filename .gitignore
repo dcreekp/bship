@@ -1,4 +1,31 @@
-*.pyc
-venv_bship3/
-docs/
-NOTES
+# Byte-compiled / optimized
+__pycache__/
+*.py[co]
+
+# Distribution / packaging
+env/
+build/
+dist/
+*.egg-info/
+.venv/
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.coverage
+.cache/
+.pytest_cache/
+nosetests.xml
+coverage.xml
+geckodriver.log
+
+# Sphinx documentation
+docs/_build/
+
+# Javascript builds
+node_modules/
+
+# Notes
+.todos.json
+*.swp
+notes.md
