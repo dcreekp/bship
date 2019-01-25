@@ -1,7 +1,12 @@
 ### Battleships from the commandline
-
+install:
+```
+pip install bship
+```
 start playing:  
 ```
+bship
+# or
 python -m battleship
 ```
 

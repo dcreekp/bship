@@ -1,4 +1,5 @@
-from battleship.config import POINT, FLEET
+from battleship.config import POINT
+from battleship.ship import Ship
 
 
 class Board(object):
@@ -17,40 +18,37 @@ class Board(object):
             for col in range(cols):
                 self.board[(col, row)] = POINT['open']
 
-        self.fleet = FLEET
+        self.fleet = {
+            'K': Ship('AircraftCarrier', 'K', 5),
+            'T': Ship('Battleship', 'T', 4),
+            'S': Ship('Submarine', 'S', 3),
+            'Y': Ship('Destroyer', 'Y', 3),
+            'P': Ship('PatrolBoat', 'P', 2)
+        }
 
     def __str__(self, hide=False):
         """Converts board dict tuple as key into a list of list to display. It
         will or will not display ships depending on the `hide` parameter.
         """
         str_board = []  # will become a list containing str_row lists
-
         # the column reference row is being made first
-        str_row = []
+        str_row = ['+']
         for col in 'ABCDEFGHIJ'[:self.cols]:
-            str_row.append('  {}'.format(col))
-        str_row.insert(0, '+')
+            str_row.append(f'  {col}')
 
         # the col_ref row is appended to the str_board list
         # and elements of str_row joined into a string)
-        str_board.append('\t{}'.format(''.join(str_row)))
+        str_board.append(f'\t{"".join(str_row)}')
 
-        # the dict will be organised into lists
         for row in range(self.rows):
-            str_row = []  # each will be a list of the values of the board dict
-
-            # for every col in the row the corresponding dict value is appended
+            str_row = []
             for col in range(self.cols):
-                if hide:  # to keep a ship's location hidden
-                    if self.board[(col, row)] in self.fleet.keys():
-                        str_row.append(' ' + POINT['open'] + ' ')
-                    else:
-                        str_row.append(' {} '.format(self.board[(col, row)]))
-                else:  # to show a ship's location
-                    str_row.append(' {} '.format(self.board[(col, row)]))
+                if hide and self.board[(col, row)] in self.fleet.keys():
+                    str_row.append(f' {POINT["open"]} ')
+                else:
+                    str_row.append(f' {self.board[(col, row)]} ')
 
-            # appends each str_row along with each row's reference
-            str_board.append('\t{} {}'.format(row, ''.join(str_row)))
+            str_board.append(f'\t{row} {"".join(str_row)}')
 
         return '\n'.join(str_board)
 
