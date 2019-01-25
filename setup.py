@@ -1,16 +1,19 @@
 from setuptools import setup
+import pathlib
 
-def readme():
-    with open('README.md') as f:
-        return f.read()
+
+dir = pathlib.Path(__file__).parent
+README = (dir / 'README.md').read_text()
+
 
 setup(
-    name='bship3',
+    name='bship',
     version='0.1.0',
     description='Battleships from the commandline.',
-    long_description=readme(),
-    keywords='battleships commandline game',
-    url='https://github.com/dcreekp/bship3',
+    long_description=README,
+    long_description_content_type='text/markdown',
+    keywords='battleships commandline game bship',
+    url='https://github.com/dcreekp/bship',
     author='Tarbo Fukazawa',
     author_email='dcreekp@tarbo.jp',
     license='MIT',
@@ -20,6 +23,7 @@ setup(
         "Programming Language :: Python :: 3.6",
         ],
     packages=['battleship'],
+    include_package_data=True,
     install_requires=[],
     python_requires='>=3.6',
     entry_points={
@@ -28,4 +32,3 @@ setup(
             ]
         },
 )
-

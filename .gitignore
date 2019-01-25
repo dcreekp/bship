@@ -27,5 +27,5 @@ node_modules/
 
 # Notes
 .todos.json
-*.swp
+*.sw[po]
 notes.md
